@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { createFileRoute } from "@tanstack/react-router";
 import { eq } from "drizzle-orm";
 import z from "zod";
@@ -6,14 +5,7 @@ import { db, schema } from "@/db";
 
 const feedbackSchema = z.object({
 	content: z.string().min(1),
-	tags: z
-		.array(
-			z.object({
-				id: z.string().min(1),
-				content: z.string().min(1),
-			}),
-		)
-		.min(1),
+	tags: z.record(z.string(), z.string()),
 });
 
 export const Route = createFileRoute("/api/feedback")({
@@ -73,9 +65,10 @@ export const Route = createFileRoute("/api/feedback")({
 						.returning();
 
 					// Create the tag records
-					const tagsToInsert = tagData.map((tag) => ({
-						id: tag.id,
-						content: tag.content,
+					const tagsToInsert = Object.entries(tagData).map(([id, content]) => ({
+						id: crypto.randomUUID(),
+						slug: id,
+						content,
 						feedbackId,
 					}));
 

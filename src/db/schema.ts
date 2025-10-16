@@ -27,6 +27,7 @@ export const feedbackRelations = relations(feedback, ({ one, many }) => ({
 
 export const tags = pgTable("tags", {
 	id: text().primaryKey(),
+	slug: text().notNull(),
 	content: text().notNull(),
 	feedbackId: text()
 		.references(() => feedback.id, { onDelete: "cascade" })

@@ -2,7 +2,7 @@ import z from "zod";
 
 export type HandlerOptions = {
 	apiKey: string;
-	tags: { id: string; content: string }[];
+	tags: Record<string, string>;
 };
 
 export const feedbackSchema = z.object({
