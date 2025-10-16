@@ -7,7 +7,7 @@ import {
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
-import { type ReactNode, useEffect } from "react";
+import type { ReactNode } from "react";
 import { getAuth } from "@/auth/functions";
 import { queryClient } from "@/query-client";
 import logo from "../assets/logo.svg?url";
