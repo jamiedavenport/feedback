@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { user } from "./auth-schema";
 
@@ -10,7 +11,19 @@ export const feedback = pgTable("feedback", {
 		.notNull(),
 	content: text().notNull(),
 	createdAt: timestamp().defaultNow().notNull(),
+	status: text()
+		.$type<"new" | "resolved" | "archived">()
+		.notNull()
+		.default("new"),
 });
+
+export const feedbackRelations = relations(feedback, ({ one, many }) => ({
+	user: one(user, {
+		fields: [feedback.userId],
+		references: [user.id],
+	}),
+	tags: many(tags),
+}));
 
 export const tags = pgTable("tags", {
 	id: text().primaryKey(),
@@ -19,6 +32,13 @@ export const tags = pgTable("tags", {
 		.references(() => feedback.id, { onDelete: "cascade" })
 		.notNull(),
 });
+
+export const tagsRelations = relations(tags, ({ one }) => ({
+	feedback: one(feedback, {
+		fields: [tags.feedbackId],
+		references: [feedback.id],
+	}),
+}));
 
 export const apiKey = pgTable("api_key", {
 	id: text().primaryKey(),
@@ -29,3 +49,10 @@ export const apiKey = pgTable("api_key", {
 		.notNull(),
 	createdAt: timestamp().defaultNow().notNull(),
 });
+
+export const apiKeyRelations = relations(apiKey, ({ one }) => ({
+	user: one(user, {
+		fields: [apiKey.userId],
+		references: [user.id],
+	}),
+}));
