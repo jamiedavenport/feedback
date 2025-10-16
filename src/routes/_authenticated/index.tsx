@@ -13,29 +13,30 @@ function RouteComponent() {
 		<div className="p-10">
 			<div className="flex items-center justify-between mb-10">
 				<img src={logo} alt="Feedback Logo" className="h-10 rounded-xl" />
-				<Keys />
+				<div className="flex items-center gap-3">
+					<Button asChild variant="outline">
+						<a
+							href="https://github.com/jamiedavenport/feedback"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Github
+						</a>
+					</Button>
+					<Button asChild variant="outline">
+						<a
+							href="https://www.npmjs.com/package/@jxdltd/feedback"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							NPM
+						</a>
+					</Button>
+					<Keys />
+				</div>
 			</div>
-			<div className="flex items-center gap-3">
-				<Button asChild variant="outline">
-					<a
-						href="https://github.com/jamiedavenport/feedback"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Github
-					</a>
-				</Button>
-				<Button asChild variant="outline">
-					<a
-						href="https://www.npmjs.com/package/@jxdltd/feedback"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						NPM
-					</a>
-				</Button>
-				<FeedbackTable />
-			</div>
+
+			<FeedbackTable />
 		</div>
 	);
 }
