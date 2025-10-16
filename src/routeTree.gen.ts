@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as SignUpRouteImport } from './routes/sign/up'
 import { Route as SignInRouteImport } from './routes/sign/in'
+import { Route as ApiFeedbackRouteImport } from './routes/api/feedback'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 
 const SignRoute = SignRouteImport.update({
@@ -40,6 +41,11 @@ const SignInRoute = SignInRouteImport.update({
   path: '/in',
   getParentRoute: () => SignRoute,
 } as any)
+const ApiFeedbackRoute = ApiFeedbackRouteImport.update({
+  id: '/api/feedback',
+  path: '/api/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -48,6 +54,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/sign': typeof SignRouteWithChildren
+  '/api/feedback': typeof ApiFeedbackRoute
   '/sign/in': typeof SignInRoute
   '/sign/up': typeof SignUpRoute
   '/': typeof AuthenticatedIndexRoute
@@ -55,6 +62,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/sign': typeof SignRouteWithChildren
+  '/api/feedback': typeof ApiFeedbackRoute
   '/sign/in': typeof SignInRoute
   '/sign/up': typeof SignUpRoute
   '/': typeof AuthenticatedIndexRoute
@@ -64,6 +72,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/sign': typeof SignRouteWithChildren
+  '/api/feedback': typeof ApiFeedbackRoute
   '/sign/in': typeof SignInRoute
   '/sign/up': typeof SignUpRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
@@ -71,13 +80,20 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/sign' | '/sign/in' | '/sign/up' | '/' | '/api/auth/$'
+  fullPaths:
+    | '/sign'
+    | '/api/feedback'
+    | '/sign/in'
+    | '/sign/up'
+    | '/'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign' | '/sign/in' | '/sign/up' | '/' | '/api/auth/$'
+  to: '/sign' | '/api/feedback' | '/sign/in' | '/sign/up' | '/' | '/api/auth/$'
   id:
     | '__root__'
     | '/_authenticated'
     | '/sign'
+    | '/api/feedback'
     | '/sign/in'
     | '/sign/up'
     | '/_authenticated/'
@@ -87,6 +103,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   SignRoute: typeof SignRouteWithChildren
+  ApiFeedbackRoute: typeof ApiFeedbackRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -127,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof SignRoute
     }
+    '/api/feedback': {
+      id: '/api/feedback'
+      path: '/api/feedback'
+      fullPath: '/api/feedback'
+      preLoaderRoute: typeof ApiFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -164,6 +188,7 @@ const SignRouteWithChildren = SignRoute._addFileChildren(SignRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   SignRoute: SignRouteWithChildren,
+  ApiFeedbackRoute: ApiFeedbackRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

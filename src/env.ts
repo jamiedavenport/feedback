@@ -33,7 +33,7 @@ export const env = createEnv({
 		// POLAR_YEARLY_PRODUCT_ID: process.env.POLAR_YEARLY_PRODUCT_ID,
 
 		// todo fix bun push
-		VITE_SENTRY_DSN: process.env.VITE_SENTRY_DSN,
+		VITE_SENTRY_DSN: import.meta.env.VITE_SENTRY_DSN,
 	},
 
 	emptyStringAsUndefined: true,
