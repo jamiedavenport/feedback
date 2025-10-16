@@ -1,5 +1,5 @@
 {
-	"name": "@jxdltd/feedback",
+	"name": "feedback",
 	"private": true,
 	"type": "module",
 	"scripts": {

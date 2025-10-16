@@ -1,0 +1,9 @@
+*.ts
+!*.d.ts
+tsconfig.json
+tsconfig.build.json
+node_modules/
+.git/
+.gitignore
+build.ts
+

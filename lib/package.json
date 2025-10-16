@@ -1,0 +1,50 @@
+{
+	"name": "@jxdltd/feedback",
+	"version": "0.1.0",
+	"description": "A simple, type-safe feedback collection SDK",
+	"type": "module",
+	"main": "./dist/client/index.js",
+	"types": "./dist/client.d.ts",
+	"exports": {
+		"./client": {
+			"types": "./dist/client.d.ts",
+			"import": "./dist/client/index.js",
+			"default": "./dist/client/index.js"
+		},
+		"./server": {
+			"types": "./dist/server.d.ts",
+			"import": "./dist/server/index.js",
+			"default": "./dist/server/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"build": "bun run build.ts",
+		"prepublishOnly": "bun run build"
+	},
+	"keywords": [
+		"feedback",
+		"user-feedback",
+		"feedback-collection",
+		"typescript"
+	],
+	"author": "",
+	"license": "MIT",
+	"peerDependencies": {
+		"zod": "^4.0.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.9.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jamiedavenport/feedback"
+	},
+	"bugs": {
+		"url": "https://github.com/jamiedavenport/feedback/issues"
+	},
+	"homepage": "https://github.com/jamiedavenport/feedback#readme"
+}
