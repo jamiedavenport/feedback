@@ -42,6 +42,7 @@ type FeedbackItem = {
 	userId: string;
 	tags: Array<{
 		id: string;
+		slug: string;
 		content: string;
 		feedbackId: string;
 	}>;
@@ -73,21 +74,21 @@ export function FeedbackTable() {
 		},
 	});
 
-	// Extract all unique tag IDs and their content
+	// Extract all unique tag slugs and their content
 	const uniqueTags = useMemo(() => {
 		if (!feedbackData?.feedback) return [];
 
 		const tagMap = new Map<string, string>();
 		for (const feedback of feedbackData.feedback) {
 			for (const tag of feedback.tags) {
-				if (!tagMap.has(tag.id)) {
-					tagMap.set(tag.id, tag.content);
+				if (!tagMap.has(tag.slug)) {
+					tagMap.set(tag.slug, tag.content);
 				}
 			}
 		}
 
-		return Array.from(tagMap.entries()).map(([id, content]) => ({
-			id,
+		return Array.from(tagMap.entries()).map(([slug, content]) => ({
+			slug,
 			content,
 		}));
 	}, [feedbackData]);
@@ -95,11 +96,11 @@ export function FeedbackTable() {
 	// Define columns dynamically based on unique tags
 	const columns = useMemo<ColumnDef<FeedbackItem>[]>(() => {
 		// Get unique tag content values for each tag column for filtering
-		const getTagValues = (tagId: string) => {
+		const getTagValues = (tagSlug: string) => {
 			const values = new Set<string>();
 			if (!feedbackData?.feedback) return [];
 			for (const feedback of feedbackData.feedback) {
-				const tag = feedback.tags.find((t) => t.id === tagId);
+				const tag = feedback.tags.find((t) => t.slug === tagSlug);
 				if (tag) values.add(tag.content);
 			}
 			return Array.from(values);
@@ -129,22 +130,22 @@ export function FeedbackTable() {
 
 		// Add dynamic tag columns
 		const tagColumns: ColumnDef<FeedbackItem>[] = uniqueTags.map((tag) => ({
-			id: tag.id,
+			id: tag.slug,
 			accessorFn: (row) => {
 				// Return the tag content if this tag exists on the feedback
-				const matchingTag = row.tags.find((t) => t.id === tag.id);
+				const matchingTag = row.tags.find((t) => t.slug === tag.slug);
 				return matchingTag ? matchingTag.content : "";
 			},
 			header: ({ column }) => {
 				const currentFilter = (column.getFilterValue() as string[]) ?? [];
-				const availableValues = getTagValues(tag.id);
+				const availableValues = getTagValues(tag.slug);
 
 				return (
 					<div className="flex items-center justify-center">
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button variant="ghost" size="sm" className="h-8">
-									{tag.id}
+									{tag.slug}
 									{currentFilter.length > 0 && (
 										<Badge variant="secondary" className="ml-1 rounded-sm px-1">
 											{currentFilter.length}
@@ -195,7 +196,7 @@ export function FeedbackTable() {
 				);
 			},
 			cell: ({ row }) => {
-				const value = row.getValue(tag.id) as string;
+				const value = row.getValue(tag.slug) as string;
 				return (
 					<div className="text-center">
 						{value ? (
