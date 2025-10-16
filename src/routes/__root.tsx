@@ -41,12 +41,6 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-	useEffect(() => {
-		if ("serviceWorker" in navigator) {
-			navigator.serviceWorker.register("/sw.js");
-		}
-	}, []);
-
 	return (
 		<RootDocument>
 			<QueryClientProvider client={queryClient}>
