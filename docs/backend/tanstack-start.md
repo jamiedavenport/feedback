@@ -4,7 +4,7 @@
 
 An API key from [feedback.jxd.dev](https://feedback.jxd.dev).
 
-## Install
+## Install
 
 ```bash
 bun add @jxdltd/feedback
