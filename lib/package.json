@@ -1,6 +1,6 @@
 {
-	"name": "@jxdltd/feedback",
-	"version": "0.2.0",
+	"name": "@jxdltd/vox",
+	"version": "0.1.0",
 	"description": "A simple, type-safe feedback collection SDK",
 	"type": "module",
 	"main": "./dist/client/index.js",
